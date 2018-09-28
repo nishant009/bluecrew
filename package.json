@@ -1,0 +1,44 @@
+{
+  "name": "bluecrew",
+  "version": "0.0.1",
+  "description": "Blue Crew coding challenge",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development",
+    "lint": "eslint src",
+    "test": "echo 'no tests' && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishant009/bluecrew.git"
+  },
+  "keywords": [
+    "bluecrew",
+    "challenge"
+  ],
+  "author": "Nishant Trivedi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nishant009/bluecrew/issues"
+  },
+  "homepage": "https://github.com/nishant009/bluecrew#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "lodash": "^4.17.11",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^2.7.0",
+    "prettier": "^1.14.3",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1"
+  }
+}
