@@ -21,3 +21,5 @@ function helloWorld(req, res) {
 app.use('/', helloWorld);
 
 app.listen(port, () => logger.info(`Started listening on port ${port}.`));
+
+export default app;
