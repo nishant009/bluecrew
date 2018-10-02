@@ -3,7 +3,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 
-import cat from './cat';
+import { register, login } from './cat';
+import { root, random } from './cats';
 import { getConnection, closeConnection } from './db_utils';
 import logger from './logger';
 
@@ -31,7 +32,13 @@ app.use(bodyParser.json({ type: 'application/*+json' }));
 
 app.get('/', getVersion);
 
-app.get('/cat', cat);
+app.get('/cat/register', register);
+
+app.get('/cat/login', login);
+
+app.get('/cats', root);
+
+app.get('/cats/random', random);
 
 (async () => {
   if (await getConnection()) {
