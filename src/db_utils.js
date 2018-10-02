@@ -52,10 +52,10 @@ export async function getConnection() {
 export async function query(options) {
   try {
     const results = await queryWrapper(options);
-    logger.info('Successfully executed query.');
+    logger.info('Successfully executed DB query.');
     return results;
   } catch (error) {
-    logger.error(`Query execution failed with error: ${error}`);
+    logger.error(`DB query execution failed with error: ${error}`);
     return null;
   }
 }
