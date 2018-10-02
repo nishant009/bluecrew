@@ -26,16 +26,18 @@
   },
   "homepage": "https://github.com/nishant009/bluecrew#readme",
   "dependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
-    "babel-loader": "^8.0.4",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "eslint": "^5.6.0",
@@ -44,8 +46,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^2.7.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.14.3",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1"
+    "prettier": "^1.14.3"
   }
 }
