@@ -5,6 +5,11 @@ module.exports = {
   resolve: {
     extensions: ['.js']
   },
+  externals: {
+    redis: 'commonjs redis',
+    'redis-commands': 'commonjs redis-commands',
+    'redis-parser': 'commonjs redis-parser'
+  },
   module: {
     rules: [
       {

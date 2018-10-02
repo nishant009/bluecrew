@@ -6,6 +6,7 @@ import express from 'express';
 import { register, login } from './cat';
 import { root, random } from './cats';
 import { getConnection, closeConnection } from './db_utils';
+import { end } from './cache_utils';
 import logger from './logger';
 
 import { version } from '../package.json';
@@ -14,12 +15,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 function getVersion(req, res) {
+  res.setHeader('Content-Type', 'application/json');
   res.json({ version });
 }
 
 function shutDown() {
   logger.info('Received kill signal, shutting down...');
   closeConnection();
+  end();
   process.exit(0);
 }
 
@@ -28,13 +31,13 @@ process.on('SIGINT', shutDown);
 
 app.use(cors());
 
-app.use(bodyParser.json({ type: 'application/*+json' }));
+app.use(bodyParser.json({ type: 'application/json' }));
 
 app.get('/', getVersion);
 
 app.get('/cat/register', register);
 
-app.get('/cat/login', login);
+app.post('/cat/login', login);
 
 app.get('/cats', root);
 

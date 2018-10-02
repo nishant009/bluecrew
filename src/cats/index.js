@@ -8,6 +8,7 @@ function getRandomInt(max) {
 }
 
 export async function root(req, res) {
+  res.setHeader('Content-Type', 'application/json');
   res.json('Hello World!');
 }
 
@@ -41,6 +42,7 @@ export async function random(req, res) {
     return;
   }
 
+  res.setHeader('Content-Type', 'application/json');
   res.json({
     name: results[0].name,
     breed: results[0].breed,
