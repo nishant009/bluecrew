@@ -35,11 +35,11 @@ app.use(bodyParser.json({ type: 'application/json' }));
 
 app.get('/', getVersion);
 
-app.get('/cat/register', register);
+app.post('/cat/register', register);
 
 app.post('/cat/login', login);
 
-app.get('/cats', root);
+app.post('/cats', root);
 
 app.get('/cats/random', random);
 
