@@ -4,21 +4,56 @@ import logger from '../logger';
 import { query } from '../db_utils';
 import { set } from '../cache_utils';
 
+function isNilOrEmpty(entity) {
+  return _.isNil(entity) || _.isEmpty(entity);
+}
+
 export async function register(req, res) {
-  const results = await query({
-    sql: 'SELECT `username` FROM `cat` WHERE `name` = ?',
-    values: ['fluffy']
-  });
+  const {
+    birthdate,
+    breed,
+    imageUrl,
+    name,
+    password,
+    username,
+    weight
+  } = req.body;
 
   // TODO: Send an error response down the chain.
-  if (_.isNull(results)) {
-    logger.debug('No results found, sending empty response.');
+  if (
+    isNilOrEmpty(name) ||
+    isNilOrEmpty(password) ||
+    isNilOrEmpty(username) ||
+    isNilOrEmpty(weight) ||
+    password.length < 8
+  ) {
+    logger.debug('Invalid request');
     res.status(204).send();
     return;
   }
 
-  res.setHeader('Content-Type', 'application/json');
-  res.json({ username: results[0].username });
+  const results = await query({
+    sql:
+      'INSERT INTO `cat` (`name`, `username`, `password`, `breed`, `imageUrl`, `addedAt`, `lastSeenAt`, `birthDate`, `weight`) VALUES (?, ?, ?, ?, ?, NOW(), NOW(), ?, ?)',
+    values: [
+      name,
+      username,
+      password,
+      breed,
+      imageUrl,
+      birthdate,
+      parseFloat(weight)
+    ]
+  });
+
+  // TODO: Send an error response down the chain.
+  if (isNilOrEmpty(results)) {
+    logger.debug('Failed to insert');
+    res.status(204).send();
+    return;
+  }
+
+  res.status(204).send();
 }
 
 export async function login(req, res) {

@@ -10,11 +10,20 @@ services:
       - '3306:3306'
     networks:
       - backend
+  cache:
+    build:
+      context: .
+      dockerfile: Dockerfile.cache
+    image: bluecrewredis
+    ports:
+      - 6379:6379
+    networks:
+      - backend
   app:
     build: ./
     image: bluecrew
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - backend
     depends_on:
@@ -26,4 +35,4 @@ services:
       - PASSWORD=cheezburger
       - DB=bluecrew
 networks:
-  backend:
+  ? backend
