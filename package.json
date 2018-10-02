@@ -27,16 +27,19 @@
   "homepage": "https://github.com/nishant009/bluecrew#readme",
   "dependencies": {
     "@babel/core": "^7.1.0",
+    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "babel-loader": "^8.0.4",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
+    "mysql": "^2.16.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.0.0",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
