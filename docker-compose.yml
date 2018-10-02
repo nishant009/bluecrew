@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    image: bluecrewsql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    networks:
+      - backend
+networks:
+  backend:
