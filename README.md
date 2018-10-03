@@ -53,6 +53,9 @@ curl http://localhost:3000/cats/random
 1. Wait for the containers to start, you can check the status by running the command: `docker-compose ps`
 1. Once all containers are reported as running, open your browser and navigate to `http://localhost:3000` to interact with the app
 1. To shutdown the app you can run the command `docker-compose down -v --rmi all --remove-orphans` to clean up everything.
+1. You can also run the app outside docker by running the command `ci.sh start`. Make sure you have proper values set for all the environment variables or that the defaults will work.
+1. Similarly you can run tests by running the comand `ci.sh test`. Again set required environment variables or makes sure the defaults work.
+1. Refer to `ci.sh` for example invocations.
 
 ## Future Improvements:
 

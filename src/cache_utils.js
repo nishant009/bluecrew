@@ -1,4 +1,5 @@
 import redis from 'redis';
+import _ from 'lodash';
 import logger from './logger';
 
 const config = {
@@ -35,8 +36,9 @@ export async function get(key) {
   }
 }
 
-export function set(key, value, time = 900) {
-  client.set(key, value, 'EX', time);
+export function set(key, value, time) {
+  const expiry = _.isNil(time) ? 900000 : time;
+  client.set(key, value, 'PX', expiry);
 }
 
 export function end() {
