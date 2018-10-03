@@ -34,5 +34,6 @@ services:
       - USER=cats_admin
       - PASSWORD=cheezburger
       - DB=bluecrew
+      - REDIS_HOST=cache
 networks:
-  ? backend
+  backend:
