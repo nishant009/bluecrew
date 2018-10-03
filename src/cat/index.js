@@ -60,12 +60,12 @@ export async function login(req, res) {
   const { username, password } = req.body;
 
   let results = await query({
-    sql: 'SELECT `id`, `password` FROM `cat` WHERE `username` = ?',
+    sql: 'SELECT `password` FROM `cat` WHERE `username` = ?',
     values: [username]
   });
 
   // TODO: Send an error response down the chain.
-  if (_.isNull(results) || _.isEmpty(results)) {
+  if (isNilOrEmpty(results)) {
     logger.debug('No such user.');
     res.status(200).send('No such user.');
     return;
@@ -78,14 +78,13 @@ export async function login(req, res) {
     return;
   }
 
-  const { id } = results[0];
   results = await query({
     sql: 'UPDATE `cat` SET `lastSeenAt` = NOW() WHERE `username` = ?',
     values: [username]
   });
 
   const token = hat();
-  set(id, token);
+  set(token, 1);
   res.setHeader('Content-Type', 'application/json');
   res.json({ authToken: token });
 }

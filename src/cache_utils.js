@@ -27,7 +27,7 @@ function getWrapper(key) {
 export async function get(key) {
   try {
     const reply = await getWrapper(key);
-    logger.info('Successfully executed cache query.');
+    logger.info(`Successfully executed cache query for key: ${key}`);
     return reply;
   } catch (error) {
     logger.error(`Cache query execution failed with error: ${error}`);
