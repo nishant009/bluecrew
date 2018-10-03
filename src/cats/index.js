@@ -30,20 +30,21 @@ export async function root(req, res) {
   if (!_.isNil(name) && !_.isEmpty(name)) {
     if (addWhereClause) {
       addWhereClause = false;
-      dbQuery += ` WHERE \`name\` = ${name}`;
+      dbQuery += ` WHERE \`name\` = '${name}'`;
     } else {
-      dbQuery += ` AND \`name\` = ${name}`;
+      dbQuery += ` AND \`name\` = '${name}'`;
     }
   }
   if (!_.isNil(username) && !_.isEmpty(username)) {
     if (addWhereClause) {
-      dbQuery += ` WHERE \`username\` = ${username}`;
+      dbQuery += ` WHERE \`username\` = '${username}'`;
     } else {
-      dbQuery += ` AND \`username\` = ${username}`;
+      dbQuery += ` AND \`username\` = '${username}'`;
     }
   }
   dbQuery += ' ORDER BY `lastSeenAt` LIMIT 10';
 
+  logger.debug(`query: ${dbQuery}`);
   const results = await query({
     sql: dbQuery
   });
