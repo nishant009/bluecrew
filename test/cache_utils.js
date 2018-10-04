@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { describe, it, after } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { set, get, end } from '../src/cache_utils';
+import { set, get } from '../src/cache_utils';
 
 function sleep(sleepTime) {
   return new Promise(resolve => {
@@ -34,8 +34,5 @@ describe('Cache operations', () => {
       const result = await get(key);
       expect(_.isNil(result)).to.be.equal(true);
     });
-  });
-  after(() => {
-    end();
   });
 });
