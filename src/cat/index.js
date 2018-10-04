@@ -8,7 +8,7 @@ function isNilOrEmpty(entity) {
   return _.isNil(entity) || _.isEmpty(entity);
 }
 
-export async function register(req, res) {
+export async function register(req, res, next) {
   const {
     birthdate,
     breed,
@@ -19,7 +19,6 @@ export async function register(req, res) {
     weight
   } = req.body;
 
-  // TODO: Send an error response down the chain.
   if (
     isNilOrEmpty(name) ||
     isNilOrEmpty(password) ||
@@ -28,7 +27,9 @@ export async function register(req, res) {
     password.length < 8
   ) {
     logger.debug('Invalid request');
-    res.status(204).send();
+    const error = new Error('Bad request.');
+    error.status = 400;
+    next(error);
     return;
   }
 
@@ -46,39 +47,42 @@ export async function register(req, res) {
     ]
   });
 
-  // TODO: Send an error response down the chain.
   if (isNilOrEmpty(results)) {
     logger.debug('Failed to insert');
-    res.status(204).send();
+    const error = new Error('Operation failed.');
+    error.status = 400;
+    next(error);
     return;
   }
 
   res.status(204).send();
 }
 
-export async function login(req, res) {
+export async function login(req, res, next) {
   const { username, password } = req.body;
 
-  let results = await query({
+  const results = await query({
     sql: 'SELECT `password` FROM `cat` WHERE `username` = ?',
     values: [username]
   });
 
-  // TODO: Send an error response down the chain.
   if (isNilOrEmpty(results)) {
     logger.debug('No such user.');
-    res.status(200).send('No such user.');
+    const error = new Error('Bad credentials.');
+    error.status = 403;
+    next(error);
     return;
   }
 
-  // TODO: Send an error response down the chain.
   if (password !== results[0].password) {
     logger.debug('Wrong password.');
-    res.status(200).send('Wrong password.');
+    const error = new Error('Bad credentials.');
+    error.status = 403;
+    next(error);
     return;
   }
 
-  results = await query({
+  await query({
     sql: 'UPDATE `cat` SET `lastSeenAt` = NOW() WHERE `username` = ?',
     values: [username]
   });

@@ -29,15 +29,16 @@ function generateQuerySuffix(id, name, username) {
   return querySuffix;
 }
 
-export async function root(req, res) {
+export async function root(req, res, next) {
   const authToken = req.get('authToken');
   const { id, name, username } = req.body;
 
   const result = await get(authToken);
-  // TODO: Send an error response down the chain.
   if (_.isNil(result)) {
     logger.debug('Invalid authToken');
-    res.status(204).send();
+    const error = new Error('Unauthorized access');
+    error.status = 403;
+    next(error);
     return;
   }
 
@@ -50,10 +51,11 @@ export async function root(req, res) {
     sql: dbQuery
   });
 
-  // TODO: Send an error response down the chain.
   if (_.isNil(results) || _.isEmpty(results)) {
     logger.debug('No results found, sending empty response.');
-    res.status(204).send();
+    const error = new Error('No results found.');
+    error.status = 400;
+    next(error);
     return;
   }
 
@@ -61,16 +63,17 @@ export async function root(req, res) {
   res.json(results);
 }
 
-export async function random(req, res) {
+export async function random(req, res, next) {
   const results = await query({
     sql:
       'SELECT `name`, `breed`, `imageUrl` FROM cat AS c1 JOIN (SELECT (RAND() * (SELECT MAX(id) FROM cat)) AS id) AS c2 WHERE c1.id >= c2.id LIMIT 1'
   });
 
-  // TODO: Send an error response down the chain.
   if (_.isNil(results) || _.isEmpty(results)) {
     logger.debug('No results found, sending empty response.');
-    res.status(204).send();
+    const error = new Error('No results found.');
+    error.status = 400;
+    next(error);
     return;
   }
 

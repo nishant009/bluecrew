@@ -7,6 +7,7 @@ describe('All /cats endpoints', () => {
   before(async () => {
     await createRecords(40);
   });
+
   describe('/cats endpoint', () => {
     let token = '';
     before(async () => {
@@ -87,11 +88,19 @@ describe('All /cats endpoints', () => {
       expect(response).to.have.status(200);
       expect(response.body[0].name).to.be.equal('temp1');
     });
-    it('should return empty response with invalid valid token', async () => {
+    it('should return error response with valid token but invalid criteria', async () => {
+      const response = await request(app)
+        .post('/cats')
+        .set('authToken', token)
+        .set('content-type', 'application/json')
+        .send({ name: 'garbage' });
+      expect(response).to.have.status(400);
+    });
+    it('should return error response with invalid valid token', async () => {
       const response = await request(app)
         .post('/cats')
         .set('authToken', 'garbage');
-      expect(response).to.have.status(204);
+      expect(response).to.have.status(403);
     });
   });
 
@@ -104,6 +113,7 @@ describe('All /cats endpoints', () => {
       expect(firstResponse.body.name).to.be.not.equal(secondResponse.body.name);
     });
   });
+
   after(async () => {
     await deleteRecords();
   });

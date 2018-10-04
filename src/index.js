@@ -3,13 +3,18 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 
+import logger from './logger';
+
+import { end } from './cache_utils';
+import { version } from '../package.json';
 import { register, login } from './cat';
 import { root, random } from './cats';
 import { getConnection, closeConnection } from './db_utils';
-import { end } from './cache_utils';
-import logger from './logger';
-
-import { version } from '../package.json';
+import {
+  badRequestErrorHandler,
+  unauthorizedErrorHandler,
+  genericErrorHandler
+} from './error_handlers';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,6 +37,12 @@ process.on('SIGINT', shutDown);
 app.use(cors());
 
 app.use(bodyParser.json({ type: 'application/json' }));
+
+app.use(badRequestErrorHandler);
+
+app.use(unauthorizedErrorHandler);
+
+app.use(genericErrorHandler);
 
 app.get('/', getVersion);
 
